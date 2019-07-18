@@ -1,0 +1,335 @@
+---
+title: "analysis"
+author: "qinni"
+date: "2019/7/18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+setwd('C:\\Users\\Administrator\\Desktop')
+```
+
+```{r}
+raw <- read.csv('pupillary_data.csv')
+raw <- spread(raw,TIMEBIN,PUPIL_SIZE_MEAN)
+
+raw_widedata <- raw %>% mutate(baseline=`-500`-`-500`, t0 =`0`-`-500`, t200=`200`-`-500`, t400=`400`-`-500`, t600 = `600`-`-500`, t800 = `800`-`-500`, t1000 = `1000`-`-500`, t1200 = `1200`-`-500`, t1400 = `1400`-`-500`, t1600 = `1600`-`-500`, t1800 = `1800`-`-500`, t2000 = `2000`-`-500`, t2200 = `2200`-`-500`, t2400 = `2400`-`-500`, t2600 = `2600`-`-500`, t2800 = `2800`-`-500`, t3000 = `3000`-`-500`, t3200 = `3200`-`-500`, t3400 = `3400`-`-500`, t3600 = `3600`-`-500`, t3800 = `3800`-`-500`) 
+raw_widedata <- raw_widedata[,-(4:24)]
+# rename 
+names(raw_widedata) <- c("SUBJECT","TRIAL","PICTURE","-500","0","200","400","600","800","1000","1200","1400","1600","1800","2000","2200","2400","2600","2800","3000","3200","3400","3600","3800")
+raw_dataforplot <- gather(raw_widedata,'TIMEBIN','PUPILSIZE',4:24)
+raw_dataforplot <- na.omit(raw_dataforplot)
+raw_dataforplot$TIMEBIN <- as.numeric(raw_dataforplot$TIMEBIN)
+raw_dataforplot$PICTURE <- as.character(raw_dataforplot$PICTURE)
+```
+
+```{r}
+mnp <- raw_dataforplot %>% 
+  group_by(SUBJECT,TIMEBIN, PICTURE) %>% summarise (meanpupil=mean(PUPILSIZE))
+```
+
+```{r}
+t1 <- filter(mnp, PICTURE == "a"|PICTURE == "b"|PICTURE == "c")
+t2 <- filter(mnp, PICTURE == "d"|PICTURE == "e"|PICTURE == "f")
+t3 <- filter(mnp, PICTURE == "g"|PICTURE == "h")
+t11 <- filter(mnp, PICTURE == "a"|PICTURE == "d")
+t22 <- filter(mnp, PICTURE == "b"|PICTURE == "e")
+t33 <- filter(mnp, PICTURE == "c"|PICTURE == "f")
+```
+
+```{r}
+t1_1 <- filter(t1, TIMEBIN == 0)
+t1_2 <- filter(t1, TIMEBIN == 200)
+t1_3 <- filter(t1, TIMEBIN == 400)
+t1_4 <- filter(t1, TIMEBIN == 600)
+t1_5 <- filter(t1, TIMEBIN == 800)
+t1_6 <- filter(t1, TIMEBIN == 1000)
+t1_7 <- filter(t1, TIMEBIN == 1200)
+t1_8 <- filter(t1, TIMEBIN == 1400)
+t1_9 <- filter(t1, TIMEBIN == 1600)
+t1_10 <- filter(t1, TIMEBIN == 1800)
+t1_11 <- filter(t1, TIMEBIN == 2000)
+t1_12 <- filter(t1, TIMEBIN == 2200)
+t1_13 <- filter(t1, TIMEBIN == 2400)
+t1_14 <- filter(t1, TIMEBIN == 2600)
+t1_15 <- filter(t1, TIMEBIN == 2800)
+t1_16 <- filter(t1, TIMEBIN == 3000)
+t1_17 <- filter(t1, TIMEBIN == 3200)
+t1_18 <- filter(t1, TIMEBIN == 3400)
+t1_19 <- filter(t1, TIMEBIN == 3600)
+t1_20 <- filter(t1, TIMEBIN == 3800)
+t2_1 <- filter(t2, TIMEBIN == 0)
+t2_2 <- filter(t2, TIMEBIN == 200)
+t2_3 <- filter(t2, TIMEBIN == 400)
+t2_4 <- filter(t2, TIMEBIN == 600)
+t2_5 <- filter(t2, TIMEBIN == 800)
+t2_6 <- filter(t2, TIMEBIN == 1000)
+t2_7 <- filter(t2, TIMEBIN == 1200)
+t2_8 <- filter(t2, TIMEBIN == 1400)
+t2_9 <- filter(t2, TIMEBIN == 1600)
+t2_10 <- filter(t2, TIMEBIN == 1800)
+t2_11 <- filter(t2, TIMEBIN == 2000)
+t2_12 <- filter(t2, TIMEBIN == 2200)
+t2_13 <- filter(t2, TIMEBIN == 2400)
+t2_14 <- filter(t2, TIMEBIN == 2600)
+t2_15 <- filter(t2, TIMEBIN == 2800)
+t2_16 <- filter(t2, TIMEBIN == 3000)
+t2_17 <- filter(t2, TIMEBIN == 3200)
+t2_18 <- filter(t2, TIMEBIN == 3400)
+t2_19 <- filter(t2, TIMEBIN == 3600)
+t2_20 <- filter(t2, TIMEBIN == 3800)
+t3_1 <- filter(t3, TIMEBIN == 0)
+t3_2 <- filter(t3, TIMEBIN == 200)
+t3_3 <- filter(t3, TIMEBIN == 400)
+t3_4 <- filter(t3, TIMEBIN == 600)
+t3_5 <- filter(t3, TIMEBIN == 800)
+t3_6 <- filter(t3, TIMEBIN == 1000)
+t3_7 <- filter(t3, TIMEBIN == 1200)
+t3_8 <- filter(t3, TIMEBIN == 1400)
+t3_9 <- filter(t3, TIMEBIN == 1600)
+t3_10 <- filter(t3, TIMEBIN == 1800)
+t3_11 <- filter(t3, TIMEBIN == 2000)
+t3_12 <- filter(t3, TIMEBIN == 2200)
+t3_13 <- filter(t3, TIMEBIN == 2400)
+t3_14 <- filter(t3, TIMEBIN == 2600)
+t3_15 <- filter(t3, TIMEBIN == 2800)
+t3_16 <- filter(t3, TIMEBIN == 3000)
+t3_17 <- filter(t3, TIMEBIN == 3200)
+t3_18 <- filter(t3, TIMEBIN == 3400)
+t3_19 <- filter(t3, TIMEBIN == 3600)
+t3_20 <- filter(t3, TIMEBIN == 3800)
+
+t11_1 <- filter(t11, TIMEBIN == 0)
+t11_2 <- filter(t11, TIMEBIN == 200)
+t11_3 <- filter(t11, TIMEBIN == 400)
+t11_4 <- filter(t11, TIMEBIN == 600)
+t11_5 <- filter(t11, TIMEBIN == 800)
+t11_6 <- filter(t11, TIMEBIN == 1000)
+t11_7 <- filter(t11, TIMEBIN == 1200)
+t11_8 <- filter(t11, TIMEBIN == 1400)
+t11_9 <- filter(t11, TIMEBIN == 1600)
+t11_10 <- filter(t11, TIMEBIN == 1800)
+t11_11 <- filter(t11, TIMEBIN == 2000)
+t11_12 <- filter(t11, TIMEBIN == 2200)
+t11_13 <- filter(t11, TIMEBIN == 2400)
+t11_14 <- filter(t11, TIMEBIN == 2600)
+t11_15 <- filter(t11, TIMEBIN == 2800)
+t11_16 <- filter(t11, TIMEBIN == 3000)
+t11_17 <- filter(t11, TIMEBIN == 3200)
+t11_18 <- filter(t11, TIMEBIN == 3400)
+t11_19 <- filter(t11, TIMEBIN == 3600)
+t11_20 <- filter(t11, TIMEBIN == 3800)
+t22_1 <- filter(t22, TIMEBIN == 0)
+t22_2 <- filter(t22, TIMEBIN == 200)
+t22_3 <- filter(t22, TIMEBIN == 400)
+t22_4 <- filter(t22, TIMEBIN == 600)
+t22_5 <- filter(t22, TIMEBIN == 800)
+t22_6 <- filter(t22, TIMEBIN == 1000)
+t22_7 <- filter(t22, TIMEBIN == 1200)
+t22_8 <- filter(t22, TIMEBIN == 1400)
+t22_9 <- filter(t22, TIMEBIN == 1600)
+t22_10 <- filter(t22, TIMEBIN == 1800)
+t22_11 <- filter(t22, TIMEBIN == 2000)
+t22_12 <- filter(t22, TIMEBIN == 2200)
+t22_13 <- filter(t22, TIMEBIN == 2400)
+t22_14 <- filter(t22, TIMEBIN == 2600)
+t22_15 <- filter(t22, TIMEBIN == 2800)
+t22_16 <- filter(t22, TIMEBIN == 3000)
+t22_17 <- filter(t22, TIMEBIN == 3200)
+t22_18 <- filter(t22, TIMEBIN == 3400)
+t22_19 <- filter(t22, TIMEBIN == 3600)
+t22_20 <- filter(t22, TIMEBIN == 3800)
+t33_1 <- filter(t33, TIMEBIN == 0)
+t33_2 <- filter(t33, TIMEBIN == 200)
+t33_3 <- filter(t33, TIMEBIN == 400)
+t33_4 <- filter(t33, TIMEBIN == 600)
+t33_5 <- filter(t33, TIMEBIN == 800)
+t33_6 <- filter(t33, TIMEBIN == 1000)
+t33_7 <- filter(t33, TIMEBIN == 1200)
+t33_8 <- filter(t33, TIMEBIN == 1400)
+t33_9 <- filter(t33, TIMEBIN == 1600)
+t33_10 <- filter(t33, TIMEBIN == 1800)
+t33_11 <- filter(t33, TIMEBIN == 2000)
+t33_12 <- filter(t33, TIMEBIN == 2200)
+t33_13 <- filter(t33, TIMEBIN == 2400)
+t33_14 <- filter(t33, TIMEBIN == 2600)
+t33_15 <- filter(t33, TIMEBIN == 2800)
+t33_16 <- filter(t33, TIMEBIN == 3000)
+t33_17 <- filter(t33, TIMEBIN == 3200)
+t33_18 <- filter(t33, TIMEBIN == 3400)
+t33_19 <- filter(t33, TIMEBIN == 3600)
+t33_20 <- filter(t33, TIMEBIN == 3800)
+```
+
+# only kept significant values
+```{r} 
+2
+t2_1.aov <- aov(meanpupil ~ PICTURE,data=t2_1)
+#summary
+t2_1s <- summary(t2_1.aov)
+t2_1s
+hsd2_1 <- TukeyHSD(t2_1.aov)
+hsd2_1
+
+1
+t2_5.aov <- aov(meanpupil ~ PICTURE,data=t2_5)
+#summary
+t2_5s <- summary(t2_5.aov)
+t2_5s
+hsd2_5 <- TukeyHSD(t2_5.aov)
+hsd2_5
+
+1
+t2_6.aov <- aov(meanpupil ~ PICTURE,data=t2_6)
+#summary
+t2_6s <- summary(t2_6.aov)
+t2_6s
+hsd2_6 <- TukeyHSD(t2_6.aov)
+hsd2_6
+
+2
+t2_7.aov <- aov(meanpupil ~ PICTURE,data=t2_7)
+#summary
+t2_7s <- summary(t2_7.aov)
+t2_7s
+hsd2_7 <- TukeyHSD(t2_7.aov)
+hsd2_7
+
+3
+t2_8.aov <- aov(meanpupil ~ PICTURE,data=t2_8)
+#summary
+t2_8s <- summary(t2_8.aov)
+t2_8s
+hsd2_8 <- TukeyHSD(t2_8.aov)
+hsd2_8
+
+2
+t2_9.aov <- aov(meanpupil ~ PICTURE,data=t2_9)
+#summary
+t2_9s <- summary(t2_9.aov)
+t2_9s
+hsd2_9 <- TukeyHSD(t2_9.aov)
+hsd2_9
+
+2
+t2_10.aov <- aov(meanpupil ~ PICTURE,data=t2_10)
+#summary
+t2_10s <- summary(t2_10.aov)
+t2_10s
+hsd2_10 <- TukeyHSD(t2_10.aov)
+hsd2_10
+
+3
+t2_11.aov <- aov(meanpupil ~ PICTURE,data=t2_11)
+#summary
+t2_11s <- summary(t2_11.aov)
+t2_11s
+hsd2_11 <- TukeyHSD(t2_11.aov)
+hsd2_11
+
+t2_12.aov <- aov(meanpupil ~ PICTURE,data=t2_12)
+#summary
+t2_12s <- summary(t2_12.aov)
+t2_12s
+hsd2_12 <- TukeyHSD(t2_12.aov)
+hsd2_12
+
+2
+t2_13.aov <- aov(meanpupil ~ PICTURE,data=t2_13)
+#summary
+t2_13s <- summary(t2_13.aov)
+t2_13s
+hsd2_13 <- TukeyHSD(t2_13.aov)
+hsd2_13
+
+1
+t2_14.aov <- aov(meanpupil ~ PICTURE,data=t2_14)
+#summary
+t2_14s <- summary(t2_14.aov)
+t2_14s
+hsd2_14 <- TukeyHSD(t2_14.aov)
+hsd2_14
+
+1
+t2_15.aov <- aov(meanpupil ~ PICTURE,data=t2_15)
+#summary
+t2_15s <- summary(t2_15.aov)
+t2_15s
+hsd2_15 <- TukeyHSD(t2_15.aov)
+hsd2_15
+
+2
+t2_16.aov <- aov(meanpupil ~ PICTURE,data=t2_16)
+#summary
+t2_16s <- summary(t2_16.aov)
+t2_16s
+hsd2_16 <- TukeyHSD(t2_16.aov)
+hsd2_16
+
+1
+t2_17.aov <- aov(meanpupil ~ PICTURE,data=t2_17)
+#summary
+t2_17s <- summary(t2_17.aov)
+t2_17s
+hsd2_17 <- TukeyHSD(t2_17.aov)
+hsd2_17
+
+3
+t2_18.aov <- aov(meanpupil ~ PICTURE,data=t2_18)
+#summary
+t2_18s <- summary(t2_18.aov)
+t2_18s
+hsd2_18 <- TukeyHSD(t2_18.aov)
+hsd2_18
+
+2
+t2_19.aov <- aov(meanpupil ~ PICTURE,data=t2_19)
+#summary
+t2_19s <- summary(t2_19.aov)
+t2_19s
+hsd2_19 <- TukeyHSD(t2_19.aov)
+hsd2_19
+ 
+1
+t2_20.aov <- aov(meanpupil ~ PICTURE,data=t2_20)
+#summary
+t2_20s <- summary(t2_20.aov)
+t2_20s
+hsd2_20 <- TukeyHSD(t2_20.aov)
+hsd2_20
+```
+
+```{r}
+t.test(meanpupil~ PICTURE,data = t3_7) 1
+t.test(meanpupil~ PICTURE,data = t3_8) 1
+t.test(meanpupil~ PICTURE,data = t3_12) 1
+t.test(meanpupil~ PICTURE,data = t3_13) 2
+t.test(meanpupil~ PICTURE,data = t3_14) 1
+t.test(meanpupil~ PICTURE,data = t3_17) 1
+
+```
+
+```{r}
+t.test(meanpupil~ PICTURE,data = t11_18) 1
+```
+
+```{r}
+t.test(meanpupil~ PICTURE,data = t22_1) 1
+t.test(meanpupil~ PICTURE,data = t22_5) 1
+t.test(meanpupil~ PICTURE,data = t22_6) 2
+t.test(meanpupil~ PICTURE,data = t22_7) 2
+t.test(meanpupil~ PICTURE,data = t22_12) 1
+t.test(meanpupil~ PICTURE,data = t22_13) 2
+t.test(meanpupil~ PICTURE,data = t22_17) 1
+t.test(meanpupil~ PICTURE,data = t22_18) 1
+t.test(meanpupil~ PICTURE,data = t22_19) 1
+
+```
+
+```{r}
+t.test(meanpupil~ PICTURE,data = t33_7) 1
+t.test(meanpupil~ PICTURE,data = t33_10) 1
+```
+
